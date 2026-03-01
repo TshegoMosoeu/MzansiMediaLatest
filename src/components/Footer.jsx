@@ -18,7 +18,7 @@ const SOCIAL_ICON_MAP = {
 //   linkedin: { label: 'LinkedIn', Icon: FaLinkedinIn },
   whatsapp: { label: 'WhatsApp', Icon: FaWhatsapp },
   facebook: { label: 'Facebook', Icon: FaFacebookF },
-  twitter:  { label: 'Instagram', Icon: FaInstagram },
+  instagram:  { label: 'Instagram', Icon: FaInstagram },
 }
 
 export default function Footer() {

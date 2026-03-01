@@ -18,7 +18,7 @@ export const companyDetails = {
         linkedin: 'https://www.linkedin.com/company/mzansi-media-hub',
         whatsapp: 'https://wa.me/27794942289?text=Hello%20Mzansi%20Media%20Hub',
         facebook: 'https://www.facebook.com/profile.php?id=61587770254490',
-        instagram: 'https://twitter.com/mzansimediahub',
+        instagram: 'https://www.instagram.com/mzansimediahub',
     },
 
     brandPillars: [
