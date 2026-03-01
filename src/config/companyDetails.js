@@ -254,7 +254,7 @@ benefits: {
     hostingTiers : [
   {
     id: "starter",
-    name: "Starter Hosting",
+    name: "Starter Hosting ",
     subtitle: "Perfect for portfolios, one-page sites, or basic landing pages.",
     specs: {
       storage: "1 GB",
