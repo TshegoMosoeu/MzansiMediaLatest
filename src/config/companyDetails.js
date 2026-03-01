@@ -1,3 +1,6 @@
+import vantageBlackPreview from '../assets/VantageBlack.jpg'
+import mojapeloPreview from '../assets/Mojapelo.jpg'
+
 export const companyDetails = {
     name: 'Mzansi Media Hub',
 
@@ -84,8 +87,8 @@ export const companyDetails = {
       'WhatsApp contact',
       'Lead form'
     ],
-    link: 'https:vantageblack.co.za',
-    previewImage: 'src/assets/VantageBlack.jpg'
+    link: 'https://vantageblack.co.za',
+    previewImage: vantageBlackPreview
   },
   {
     title: "Mojapelo’s Attorneys Website",
@@ -98,7 +101,7 @@ export const companyDetails = {
       'Consultation form'
     ],
     link: 'https://mojapelosattorneys.vercel.app/',
-    previewImage: 'src/assets/Mojapelo.jpg'
+    previewImage: mojapeloPreview
   },
 
   // {

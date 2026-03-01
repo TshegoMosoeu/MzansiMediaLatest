@@ -4,6 +4,7 @@ import { useCompanyInfo } from '../components/CompanyInfoProvider.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
 import heroImg from '../assets/BaobabDay.png' // ← adjust path/filename
 
+
 export default function PortfolioPage() {
   const { demoProjects = [], caseStudies = [] } = useCompanyInfo()
 

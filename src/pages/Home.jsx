@@ -4,6 +4,7 @@ import serviceOne from '../assets/laptopsCoffee.png'
 import serviceTwo from '../assets/webHosting.png'
 import serviceThree from '../assets/SocialMediaService.png'
 import serviceFour from '../assets/LeadGen.png'
+import Demo1 from '../assets/VantageBlack.jpg'
 
 import {useCompanyInfo} from '../components/CompanyInfoProvider.jsx'
 import SectionHeading from "../components/SectionHeading.jsx"
