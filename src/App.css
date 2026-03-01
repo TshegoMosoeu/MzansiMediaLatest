@@ -976,7 +976,7 @@ html, body {
 }
 .footer-social a {
   padding: 0.125rem;
-  border: 1px solid var(#000);
+  border: 1px solid #000;
   color: rgba(255, 255, 255, 0.78);
 }
 
