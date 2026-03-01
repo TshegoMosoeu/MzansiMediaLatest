@@ -8,7 +8,7 @@ import Newsletter from "./pages/Newsletter"
 import NotFound from "./pages/NotFound"
 import Portfolio from "./pages/Portfolio"
 import Services from "./pages/Services"
-import { Analytics } from "@vercel/analytics/next"
+import { Analytics } from "@vercel/analytics/react"
 import Layout from './components/Layout'
 
 function App() {
