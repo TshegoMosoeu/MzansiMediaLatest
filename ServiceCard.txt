@@ -1,0 +1,226 @@
+1️⃣ The Function Definition
+export default function ServiceCard({
+  service,
+  className = '',
+  variant = 'icon',
+  icon = null,
+})
+What’s happening here?
+
+export default
+→ This makes ServiceCard the main export of this file.
+
+function ServiceCard(...)
+→ A React functional component.
+
+The parameter is destructured props:
+
+Instead of:
+
+function ServiceCard(props) {
+
+You directly pull values from props:
+
+Prop	Purpose	Default
+service	The service data object	Required
+className	Extra CSS classes	''
+variant	Layout style	'icon'
+icon	Icon JSX element	null
+2️⃣ Destructuring the Service Object
+const { title, body, deliverables = [] } = service;
+
+This pulls properties from the service object.
+
+Example service:
+
+{
+  title: "Web Design",
+  body: "High-converting responsive websites",
+  deliverables: ["UI Design", "SEO", "Hosting"]
+}
+
+Now you have:
+
+title
+
+body
+
+deliverables
+
+The = [] means:
+
+If deliverables is undefined → default to empty array.
+
+This prevents .map() from crashing.
+
+3️⃣ Variant Logic
+if (variant === 'icon') {
+
+This component supports two layouts:
+
+"icon" layout
+
+Default (background image card)
+
+So this is conditional rendering.
+
+4️⃣ Icon Variant Layout
+<article className={`card ${className}`}>
+
+<article> = semantic HTML element
+
+card = base CSS class
+
+${className} = allows additional styling from parent
+
+Icon Section
+<div className="service-card__icon">{icon}</div>
+
+Renders whatever JSX you pass as icon
+
+Example usage:
+
+<ServiceCard icon={<FiMonitor />} />
+Title + Body
+<h3>{title}</h3>
+<p className="muted">{body}</p>
+
+Straightforward rendering.
+
+Conditional Deliverables List
+{deliverables.length > 0 && (
+
+This means:
+
+Only render the list if deliverables exist.
+
+Equivalent to:
+
+if (deliverables.length > 0) { render list }
+<ul className="tag-list tag-list--columns">
+  {deliverables.map((d) => <li key={d}>{d}</li>)}
+</ul>
+
+Loops through deliverables array
+
+Creates <li> for each
+
+key={d} helps React track list items efficiently
+
+5️⃣ The Alternative Layout (Else Case)
+
+If variant !== 'icon':
+
+<article
+  className="card card--service"
+  style={{ '--card-background': `url(${backgroundImage})` }}
+>
+Important:
+
+⚠ backgroundImage is not defined in this snippet.
+It must either:
+
+Be coming from props
+
+Be in scope above
+
+Or this will throw an error
+
+This line sets a CSS variable:
+
+'--card-background'
+
+Which is likely used in CSS like:
+
+.card--service {
+  background-image: var(--card-background);
+}
+Overlay
+<div className="card__overlay" />
+
+Probably a dark gradient layer over the background image.
+
+Content
+<div className="card__content">
+
+Contains:
+
+<h3>{service.title}</h3>
+<p>{service.body}</p>
+
+Notice here you are NOT using the destructured title and body.
+You’re using service.title.
+
+Both work — but consistency would be better.
+
+Deliverables (Second Layout)
+{service.deliverables.map((item) => (
+  <li key={item}>{item}</li>
+))}
+
+⚠ Notice here:
+
+You are NOT using the safe default deliverables = [].
+
+If service.deliverables is undefined → this will crash.
+
+Better would be:
+
+{deliverables.map(...)}
+6️⃣ Architectural Logic Summary
+
+This component:
+
+Accepts a service object
+
+Extracts its properties
+
+Renders one of two layouts depending on variant
+
+Conditionally renders deliverables
+
+Allows style customization via:
+
+className
+
+variant
+
+icon
+
+7️⃣ What This Pattern Is Called
+
+This is a:
+
+Polymorphic / Variant Component
+
+One component → multiple visual presentations.
+
+Very clean architecture.
+
+8️⃣ Small Improvements You Should Make
+1️⃣ Fix potential crash in second layout:
+
+Change:
+
+{service.deliverables.map(...)}
+
+To:
+
+{deliverables.map(...)}
+2️⃣ Define backgroundImage properly
+
+Add it to props:
+
+export default function ServiceCard({
+  service,
+  backgroundImage,
+  ...
+})
+
+Or include it in service.
+
+9️⃣ Mental Model
+
+Think of this component as:
+
+A template that displays a service in different visual modes.

@@ -1,0 +1,992 @@
+:root {
+  --color-primary: #F5900D;
+  --color-text: #ffffff;
+  --color-muted: rgba(255,255,255,0.70);
+  --color-surface: #0a0a0a;
+  --color-surface-strong: #0e0e0e;
+  --color-border:#F5900D;
+  --color-border-soft: rgba(245,144,13,0.35);
+
+  --shadow-md: 0 8px 26px rgba(0,0,0,0.55);
+  --radius-md: 0;
+  --radius-lg: 0;
+
+  /* Reusable frame defaults */
+  --frame-bg: transparent;
+  --frame-border: 1px solid var(--color-primary);
+  --frame-shadow: var(--shadow-md);
+  --frame-pad-lg: clamp(2rem, 4vw, 4rem);
+  --frame-pad-md: 1.5rem;
+  --frame-pad-sm: 1rem;
+
+  --pricing-btn-h: clamp(42px, 5vw, 46px);
+  --card-bottom-gap: clamp(10px, 1.5vw, 12px);
+  --plan-header-min: clamp(96px, 10vw, 112px);
+  --plan-features-min: 9lh; /* keep lh: great for text-driven blocks */
+  --plan-header-min-m: clamp(84px, 9vw, 96px);
+  --service-tab-h: clamp(44px, 6vw, 52px);
+  --header-h: clamp(64px, 6vw, 80px);
+}
+
+.page-hero,
+.section--light,
+.section--cta,
+.card,
+.case-card,
+.case-detail,
+.timeline__item,
+.value-card,
+.testimonial,
+.team-card,
+.form,
+.not-found,
+.contact-card,
+.contact-card--wide,
+.contact-card--stacked {
+  border: 1px solid #F5900D;
+  box-shadow: var(--shadow-md);
+  padding: 4rem;
+}
+
+
+.page {
+  width: 100%;
+  max-width: 1200px;
+  margin-inline: auto;
+  padding-block: clamp(2rem, 4vw, 4rem);
+  padding-inline: clamp(1rem, 4vw, 2.5rem);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(2rem, 4vw, 4rem);
+}
+
+.page--home .hero__actions {
+  justify-content: flex-start;
+}
+
+
+.hero {
+  /* split: content grows, media stays in a controlled range */
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(260px, 34vw, 460px);
+  gap: clamp(1.5rem, 3vw, 2.5rem);
+
+  /* inner spacing (keep here if hero might be used without section--header elsewhere) */
+  padding: clamp(3rem, 6vw, 4rem) clamp(1.25rem, 4vw, 3.5rem);
+
+  position: relative;
+  overflow: hidden;
+  color: var(--color-text);
+
+  background-image:
+    linear-gradient(135deg, rgba(0,0,0,0.65) 0%, rgba(14,14,14,0.92) 100%),
+    /* var(--hero-background)*/;                 /* <- comes from style={{ '--hero-background': `url(...)` }} */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.hero__content, .hero__media { position: relative; z-index: 1; min-width:0}
+.hero__content h1 { font-size: clamp(2rem, 3vw + 1rem, 3.5rem); margin:0 0 1rem; }
+.lead { font-size: 1.1rem; max-width: 36ch; color: rgba(255,255,255,0.85);margin:0; }
+.hero__actions { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 1rem; }
+
+
+.hero__pillars { margin-top: 2rem; display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+
+.pillar-card {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  padding: 1rem 1rem;
+  text-align: left;
+}
+.pillar-card__value { display: block; font-size: 1rem; font-weight: 600; }
+.pillar-card__label { font-size: 0.85rem; color: rgba(255,255,255,0.75); }
+
+
+.hero__media { display: flex; flex-direction: column; gap: 1.5rem; }
+
+
+.hero__panel {
+  background:transparent;
+  border: 1px solid var(--color-primary);
+  padding: 1.5rem;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.hero__panel h3 { margin-bottom: 0.8rem; font-size: 1.1rem; }
+.hero__panel ul { 
+  list-style: none; 
+  padding: 0; 
+  margin: 0 0 1rem; 
+  display: grid; 
+  gap: 0.5rem; 
+  color: rgba(255,255,255,0.9); 
+}
+
+
+/* Right side (image) */
+.hero__media-image img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  /* blend with your dark theme without global shadow */
+  filter: grayscale(50%) brightness(0.84) contrast(1.03);
+  opacity: 0.95;
+  box-shadow: none;
+}
+
+/* Base section rhythm */
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+/* Framed header section (hero uses this) */
+.section--header {
+  padding: clamp(2rem, 4vw, 4rem);
+  border: 1px solid var(--color-primary);
+  box-shadow: var(--shadow-md);
+  background: transparent;
+}
+
+
+
+.section-heading {
+  display: grid;
+  gap: 0.6rem;
+  max-width: 60ch;
+}
+
+.section-heading--center {
+  text-align: center;
+  margin-inline: auto;
+}
+
+.section-heading__eyebrow {
+  color: var(--color-muted);
+  font-size: 0.75rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.section-heading__title {
+  font-size: clamp(2rem, 2vw + 1.2rem, 2.6rem);
+  margin: 0;               /* avoid random browser defaults */
+}
+
+/* CTA container only (neutral frame) */
+.section--cta.cta--neutral {
+  background: #0e0e0e;
+  border: 0;
+  box-shadow: none;
+}
+
+/* Services section frame */
+.section--services {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  padding: 4rem;
+  box-shadow: var(--shadow-md);
+}
+
+/* Services: make each grid item allow the card to fill the cell */
+.section--services .card-grid > * {
+  display: flex;
+  min-width: 0; /* prevents long text overflow */
+}
+
+/* Services card fills height; structure supports pinned CTA */
+.section--services .service-card,
+.section--services .card.service-card {
+  flex: 1 1 auto;
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* header | body | CTA */
+  height: 100%;
+  min-height: 280px;
+  min-width: 0;
+}
+
+/* Pin CTA-like elements to bottom (only inside service cards) */
+.section--services .service-card :is(.cta-button, a[href], button) {
+  margin-top: auto;
+}
+
+/* Guard inner children from forcing overflow */
+.section--services .service-card > * {
+  min-width: 0;
+}
+
+.card-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  align-items: stretch; /* default: makes equal-height rows work */
+}
+
+/* Desktop: always 4 cards per row in Services */
+@media (min-width: 1024px) {
+  .section--services .card-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.card {
+  border: 1px solid #F5900D;
+  padding: 1rem;
+  display: grid;
+  gap: 0.2rem;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.4);
+}
+.card h3 { font-size: 1.2rem; }
+
+.tag-list { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.tag-list li {
+  background: transparent;
+  padding: 0.35rem 0.8rem;
+  border: 1px solid transparent;
+  font-size: 0.85rem;
+}
+.tag-list--columns { flex-direction: column; gap: 0.4rem; }
+
+
+.section--benefits, .section--demos {
+  background: transparent;
+  border: 1px solid #F5900D; /* #F5900D */
+  padding: 3rem clamp(2rem, 4vw, 4rem);
+  box-shadow: var(--shadow-md);
+}
+
+.split { display: grid; gap: 2.5rem; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); align-items: start; }
+
+.case-card {
+  background: transparent;
+  border: 1px solid #F5900D;
+  padding: 1.8rem;
+  display: grid;
+  gap: 0.8rem;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+.case-card__eyebrow { text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.7rem; color: rgba(255,255,255,0.75); }
+.case-card ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.4rem; color: rgba(255,255,255,0.9); }
+
+/* Each card fills its grid cell and anchors CTA at the bottom */
+.case-card {
+  display: flex;            /* stack contents */
+  flex-direction: column;
+  height: 100%;             /* fill the grid track */
+}
+
+/* Keep normal flow for text, let CTA sink to bottom */
+.case-card .text-link {
+  margin-top: auto;         /* pushes link to bottom edge */
+}
+
+/* (Optional) tidy spacing so titles don't add uneven height */
+.case-card h3 { margin: 0.1rem 0 0.25rem; }
+.case-card p  { margin: 0 0 0.5rem; }
+.case-card ul { margin: 0 0 0.75rem; }
+
+
+.hero__actions{
+    justify-content: center;
+  }
+
+/* --- Device / browser frame preview --- */
+.device-frame {
+  border: 1px solid rgba(245,144,13,0.55);
+  background: rgba(0,0,0,0.55);
+  box-shadow: 0 10px 26px rgba(0,0,0,0.55);
+  overflow: hidden;
+}
+
+.device-frame__screen {
+  aspect-ratio: 16 / 7; /* tweak: 16/9, 4/3, 3/2 etc. */
+  overflow: hidden;
+  background: #000;
+}
+
+.device-frame__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* cover = fills, contain = shows whole page */
+  display: block;
+  filter: none;
+  box-shadow: none;
+}
+
+
+/* Services Page */
+/* Split layout for page hero */
+.page-hero.page-hero--split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(220px, 34vw, 440px);
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+}
+
+/* Left side (text) */
+.page-hero__content {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Right side (image) */
+.page-hero__media {
+  justify-self: end;          /* push to the right edge */
+  height: 100%;
+  display: grid;
+  align-content: center; /* orange divider to match theme */
+  padding-left: 1rem;
+  margin-left: 1rem;
+}
+
+.page-hero__media img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  filter: grayscale(50%) brightness(0.84) contrast(1.03);
+  opacity:0.95;
+  box-shadow: none; /* remove the global image shadow so it blends in */
+}
+
+@media (min-width: 1024px) {
+  .card-grid--services.card-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.section--process {
+  background: transparent;
+  border: 1px solid #F5900D; /* #F5900D */
+  padding: 4rem;
+  box-shadow: var(--shadow-md);
+}
+
+.section--addons {
+  background: transparent;
+  border: 1px solid #F5900D; /* #F5900D */
+  padding: 4rem;
+  box-shadow: var(--shadow-md);
+}
+
+.section--pricing {
+  background: transparent;
+  border: 1px solid #F5900D; /* #F5900D */
+  padding: 4rem;
+  box-shadow: var(--shadow-md);
+}
+
+.pricing-tabs {
+  display: inline-flex;
+  gap: 0.5rem;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem 0 1.5rem;
+  flex-wrap: wrap;
+}
+
+.pricing-tab {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #F5900D;
+  padding: 0.55rem 1rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  cursor: pointer;
+  transition: color .2s ease, transform .2s ease;
+}
+.pricing-tab:hover { 
+  background: rgba(245,144,13,0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(255,111,60,0.45);
+  filter: brightness(1.03)
+ }
+
+.pricing-tab.is-active {
+  background: linear-gradient(135deg, #ff6f3c, #fd9b59);
+  color: #fff;
+  border-color: #fd9b59;
+  
+}
+
+/* Plan grid */
+.pricing-plan-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Plan card */
+.pricing-plan-card {
+  position:relative;
+  background: transparent;
+  border: 1px solid #F5900D;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* header | features | button */
+  gap: 1rem;
+  padding: 1.2rem;
+}
+.pricing-plan-card.is-popular {
+  outline: 2px solid #fd9b59;
+  outline-offset: 0;
+}
+
+/* Popular badge */
+.plan-badge {
+  position: absolute;
+  top: -0.75rem;
+  right: 0.75rem;
+  background: #000;
+  border: 1px solid #fd9b59;
+  color: #fff;
+  padding: 0.25rem 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+.icon-star { line-height: 1; }
+
+/* Header */
+.plan-header{
+  display: grid;
+  gap: 0.5rem;
+
+  /* title | description (reserved) | price | meta-group (reserved) */
+  grid-template-rows: auto minmax(3.2em, auto) auto minmax(2.2em, auto);
+
+  align-content: start;
+}
+
+.plan-title{ margin: 0; line-height: 1.15; }
+.plan-description{
+  margin: 0;
+  line-height: 1.4;
+  color: rgba(255,255,255,0.85);
+}
+
+.plan-price{ margin: 0; }
+.plan-meta-group{ margin: 0; display: grid; gap: 0.25rem; }
+.plan-meta{ margin: 0; }
+.plan-price{ margin: 0; font-weight: 800; }
+/* Features list behaves consistently */
+
+.plan-header { display: grid; gap: 0.35rem; }
+.plan-title { margin: 0; font-size: 1.1rem; }
+.plan-description { color: var(--color-muted); font-size: 0.95rem; }
+.plan-price { display: flex; align-items: baseline; gap: 0.25rem; }
+.plan-price-number { font-weight: 800; font-size: 1.6rem; }
+.plan-price-suffix { color: var(--color-muted); font-size: 0.9rem; }
+.plan-meta { color: var(--color-muted); font-size: 0.8rem; }
+
+
+
+.plan-features{
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+  align-content: start; 
+}
+.plan-features li{
+  display: grid;
+  grid-template-columns: 1.2rem 1fr;
+  gap: 0.5rem;
+  align-items: start;
+}
+
+/* Button (reuses your CTA style) */
+
+
+
+
+.icon-check {
+  display: inline-block;
+  width: 1rem;
+  text-align: center;
+  color: #F5900D;
+  font-weight: 900;
+}
+
+/* Checklist */
+.checklist { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
+.checklist li { display: flex; align-items: flex-start; gap: 0.6rem; }
+.checklist li::before { content: '>'; color: var(--color-primary); font-weight: 700; margin-right: 0.5rem; }
+
+
+/* Split layout for page hero */
+.page-hero.page-hero--split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) clamp(220px, 34vw, 440px);
+  align-items: center;
+  gap: 2rem;
+  position: relative;
+}
+
+/* Left side (text) */
+.page-hero__content {
+  display: grid;
+  gap: 1rem;
+}
+
+/* Right side (image) */
+.page-hero__media {
+  justify-self: end;          /* push to the right edge */
+  height: 100%;
+  display: grid;
+  align-content: center; /* orange divider to match theme */
+  padding-left: 1rem;
+  margin-left: 1rem;
+}
+
+.page-hero__media img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.page-hero__media img {
+  filter: grayscale(50%) brightness(0.84) contrast(1.03);
+  opacity:0.95;
+  box-shadow: none; /* remove the global image shadow so it blends in */
+}
+
+
+/* * { outline: 1px solid rgba(255,255,255,0.08); } */
+
+
+.timeline { display: grid; gap: 1.5rem; }
+.timeline__item {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  padding: 1.6rem;
+  display: grid; gap: 0.6rem;
+}
+.timeline__index { font-weight: 600; color: var(--color-primary); font-size: 0.95rem; }
+
+/* === FAQ Accordion === */
+.accordion {
+  display: grid;
+  gap: 0.75rem;
+}
+
+.accordion__item {
+  background: transparent;
+  /* border: 1px solid #F5900D; */
+  box-shadow: var(--shadow-md);
+}
+
+.accordion__summary {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 1rem 1.25rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+.accordion__summary::-webkit-details-marker { display: none; }
+
+.accordion__question {
+  font-weight: 600;
+}
+
+.accordion__chev::before {
+  content: '\203A';
+  display: inline-block;
+  font-weight: 800;
+  font-size: 2rem;
+  color: #F5900D;
+  transform: rotate(90deg);
+  transition: transform .2s ease;
+}
+
+/* Open state */
+.accordion__item[open] .accordion__chev::before {
+  transform: rotate(-90deg);
+}
+
+.accordion__panel {
+  border-top: 1px solid rgba(245,144,13,0.35);
+  padding: 0.75rem 1.25rem 1rem;
+  color: rgba(255,255,255,0.88);
+}
+
+/* Hover & focus affordances */
+.accordion__summary:hover {
+  background: rgba(245,144,13,0.06);
+  color:#F5900D
+}
+.accordion__summary:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(245,144,13,0.18);
+}
+
+/* REVIEW LATER */
+
+/* Buttons: outline/neutral; primary = orange text/border (not fill) */
+.cta-button {
+  display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+  padding: 0.75rem 1.6rem;
+  font-weight: 600;
+  border: 1px solid #F5900D;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+.cta-button:hover { background: rgba(255,255,255,0.06); }
+.cta-button--primary {
+  border-color: #F5900D;
+  color: var(--color-primary);
+}
+.cta-button--primary:hover {
+  background: rgba(245,144,13,0.10);
+}
+.cta-button--outline:hover { 
+  transform: translateY(-2px);
+  border-color: #F5900D; 
+  box-shadow: 0 14px 36px rgba(255,111,60,0.45);
+  filter: brightness(1.03);
+  color: #fff; }
+
+.cta-button--ghost  { border-color: rgba(255,255,255,0.12); color: #fff; }
+.cta-button--ghost:hover  {   
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(255,111,60,0.45);
+  filter: brightness(1.03);}
+
+.cta-button--inverted { background: #fff; color: #141414; }
+
+
+.cta-button--primary-fill {
+  background: linear-gradient(135deg, #ff6f3c, #fd9b59);
+  color: #fff;
+  border-color: #fd9b59;                    /* subtle matching border */
+  box-shadow: 0 10px 28px rgba(255,111,60,0.35);
+}
+.cta-button--primary-fill:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px rgba(255,111,60,0.45);
+  filter: brightness(1.03);
+}
+.cta-button--primary-fill:focus-visible {
+  outline: none;
+  box-shadow:
+    0 0 0 3px rgba(245,144,13,0.18),
+    0 12px 36px rgba(255,111,60,0.45);
+}
+.cta-button--primary-fill:active {
+  transform: translateY(0);
+  filter: brightness(0.98);
+}
+.section--cta .section__inner {
+  justify-items: center;
+  text-align: center;
+}
+
+
+.home-cta-row {
+  display: flex;
+  justify-content: center;
+}
+
+
+
+.plan-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  margin: 1rem auto 0;
+}
+.value-card {
+  background: transparent;
+  border: 1px solid var(--color-border);
+  padding: 1.4rem 1.6rem;
+  display: grid; gap: 0.5rem;
+}
+@media (min-width: 1024px) {
+  .page--about .section--light:last-of-type .card-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* Match the other framed sections */
+.section--contact {
+  background: transparent;
+  border: 1px solid var(--color-primary);
+  padding: 4rem;
+  box-shadow: var(--shadow-md);
+}
+
+/* Ensure the inner grid spans the section width */
+.section--contact .split { width: 100%; }
+
+/* If you’ve removed the right-hand pane, collapse to one column (progressive enhancement) */
+.section--contact .split--contact:has(> :only-child) {
+  grid-template-columns: 1fr;
+}
+
+
+/* Forms */
+.form {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid #F5900D;
+  padding: 2rem;
+  display: grid;
+  gap: 1.5rem;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+}
+.form label { display: grid; gap: 0.4rem; font-weight: 600; color: var(--color-text); }
+.form input, .form select, .form textarea {
+  border: 1px solid #F5900D;
+  padding: 0.8rem 1rem;
+  background: rgba(255,255,255,0.05);
+  color: #fff;
+  transition: border 0.2s ease, box-shadow 0.2s ease, background 0.2s ease, color 0.2s ease;
+}
+.form input::placeholder, .form textarea::placeholder { color: rgba(255,255,255,0.45); }
+.form input:focus, .form select:focus, .form textarea:focus {
+  outline: none;
+  border-color: #F5900D;
+  box-shadow: 0 0 0 3px rgba(255,255,255,0.08);
+}
+.form__row { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); }
+.form__actions { display: flex; justify-content: flex-end; }
+
+.form { gap: 1.25rem; }
+.form__row {
+  gap: 1rem;
+  grid-template-columns: repeat(2, minmax(220px, 1fr));
+}
+@media (max-width: 640px) {
+  .form__row { grid-template-columns: 1fr; }
+}
+.form input, .form select, .form textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+
+/* Contact pane & map */
+.contact-pane { display: grid; gap: 1.5rem; align-content: start; }
+.map-placeholder {
+  height: 220px;
+  background: linear-gradient(135deg, rgba(0,0,0,0.25), rgba(40,40,40,0.35));
+  display: grid;
+  place-items: center;
+  color: rgba(255,255,255,0.6);
+  font-weight: 600;
+  border: 1px dashed #F5900D;
+}
+
+.form select {
+  color: #fff;
+  background-color: rgba(255,255,255,0.05);
+}
+
+.form select option {
+  background: #111;
+  color: #fff;
+}
+
+.form select option[disabled] {
+  color: rgba(255,255,255,0.55);
+}
+
+.form label {
+  display: grid;
+  grid-template-rows: auto auto 2.75rem;
+  gap: 0.4rem;
+  align-content: start;
+}
+
+
+
+.form__row {
+  align-items: start;
+}
+
+.form__error {
+  display: block;
+  min-height: 2.75rem;
+  line-height: 1.35;
+  color: #ffb4b4;
+  font-size: 0.875rem;
+  margin-top: 0;
+}
+
+/* Header & Nav */
+.site-header {
+  position: sticky;         /* or: fixed */
+  top: 0;
+  z-index: 1000;            /* sit above page content and the dropdown */
+  -webkit-backdrop-filter: blur(16px);
+  backdrop-filter: blur(16px);
+  background: rgba(0,0,0,0.55);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  width: 100%;
+}
+
+.site-header__inner {
+  width: min(1200px, 90vw);
+  margin: 0 auto;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 1.5rem; padding: 1.1rem 0;
+}
+.brand { display: inline-flex; align-items: center; gap: 0.75rem; color: inherit; }
+.brand__mark {
+  width: 44px; height: 44px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+  display: grid; place-items: center; font-weight: 700; letter-spacing: 0.04em; color: #fff;
+}
+.brand__meta { display: grid; gap: 0.2rem; }
+.brand__name { font-weight: 700; font-size: 1.05rem; }
+.brand__tagline { font-size: 0.8rem; color: var(--color-muted); }
+.brand--inverted .brand__mark {
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+}
+.brand--inverted .brand__tagline { color: rgba(255,255,255,0.68); }
+
+.site-nav { display: flex; gap: 1rem; align-items: center; }
+.nav-link {
+  padding: 0.45rem 0.75rem;
+  font-weight: 500;
+  color: var(--color-muted);
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.nav-link:hover {
+  background: #000;
+  color: var(--color-primary);
+}
+
+.nav-link.is-active {
+  background: rgba(255,255,255,0.06);
+  color: var(--color-text);
+}
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.25rem;
+  color: var(--color-text);
+  align-items: center;
+  justify-content: center;
+}
+.nav-toggle__icon {
+  display: inline-flex;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* Footer */
+.site-footer {
+  margin-top: 4rem;
+  background: #000;
+  color: rgba(255,255,255,0.88);
+  padding: 4rem 0 2.5rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+}
+.site-footer__grid {
+  width: min(1200px, 90vw);
+  margin: 0 auto;
+  display: grid; gap: 2.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+.footer-heading { font-size: 1rem; font-weight: 600; margin-bottom: 0.8rem; }
+.footer-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.4rem; }
+.footer-list a { color: rgba(255,255,255,0.78); }
+.footer-social { list-style: none; padding: 1.5rem 0 0; margin: 0; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.footer-social a {
+  padding: 0.125rem 0.125rem;
+  border: 1px solid var(#000);
+  color: rgba(255,255,255,0.78);
+}
+.site-footer__meta {
+  width: min(1200px, 90vw);
+  margin: 2.5rem auto 0;
+  border-top: 1px solid rgba(255,255,255,0.12);
+  padding-top: 1.5rem;
+  color: rgba(255,255,255,0.55);
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+/* optional: for inverted footer brand, keep border subtle (or remove) */
+.brand--inverted .brand__mark {
+  border: 1px solid rgba(255,255,255,0.3);  /* or: border: 0; */
+}
+
+/* === Footer logo fixes (place at the end) === */
+
+/* kill the footer brand box border + tint */
+.site-footer .brand--inverted .brand__mark {
+  background: transparent;   /* remove the light tint */
+  border: 0;                 /* remove the border */
+}
+
+/* ensure the 44x44 box is a clean container with no extra spacing */
+.site-footer .brand__mark {
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  line-height: 0;            /* removes any baseline gap */
+}
+
+/* make the logo fill that box and ignore global img effects */
+.site-footer .brand__logo {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;         /* fills the square; use 'contain' if you prefer no crop */
+  filter: none;              /* disable global grayscale */
+  box-shadow: none;          /* disable global image shadow */
+}
+
+
+/* Make each row icon + text align nicely */
+.footer-list__row {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.footer-list__icon {
+  width: 1rem;
+  height: 1rem;
+  opacity: 0.85;
+  flex: 0 0 auto;
+}
+
+
+/* Quick no-wobble baseline */
+*, *::before, *::after { box-sizing: border-box; }
+html, body { width: 100%; max-width: 100%; overflow-x: hidden; overscroll-behavior-x: contain; }
+.site-footer__grid > *,
+.page-hero,
+.page-hero__content,
+.page-hero__media,
+.split,
+.split > * { min-width: 0; }

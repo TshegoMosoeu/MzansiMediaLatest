@@ -1,0 +1,197 @@
+import { createContext, useContext, useMemo } from 'react'
+
+Imports React tools:
+
+createContext: creates a Context “bucket” for shared data.
+
+useContext: reads the Context value inside a component.
+
+useMemo: caches a computed value so it doesn’t get recalculated every render unless inputs change.
+
+import { companyDetails } from '../config/companyDetails.js'
+
+Imports your default company info object (name, contact, social, etc.) from that file.
+
+const CompanyInfoContext = createContext(companyDetails)
+
+Creates a Context called CompanyInfoContext.
+
+companyDetails is the default value if no Provider wraps the component tree.
+
+Provider: gives the context value to the app
+export function CompanyInfoProvider({ children, value }) {
+
+Exports a component named CompanyInfoProvider.
+
+It receives props:
+
+children: anything you wrap inside this provider.
+
+value: optional overrides you want to merge into companyDetails.
+
+  const contextValue = useMemo(() => {
+
+Creates contextValue, but memoizes it.
+
+It will only recompute when value changes (see dependency array later).
+
+    if (!value) return companyDetails
+
+If no override object is passed in, use the default companyDetails.
+
+    return {
+      ...companyDetails,
+      ...value,
+
+Builds a new object:
+
+Starts with all default properties from companyDetails
+
+Then overwrites them with anything provided in value
+
+This is a shallow merge at the top level.
+
+      contact: { ...companyDetails.contact, ...value.contact },
+      social: { ...companyDetails.social, ...value.social },
+    }
+
+Special handling for nested objects:
+
+contact and social get deep-ish merging (one level deep)
+
+Example: if value.contact only provides email, it keeps the default phone, etc.
+
+  }, [value])
+
+Dependency array:
+
+Only recompute contextValue when value changes reference.
+
+  return <CompanyInfoContext.Provider value={contextValue}>{children}</CompanyInfoContext.Provider>
+}
+
+Wraps children with the Context Provider.
+
+Any component inside can read contextValue using the hook later.
+
+Hook: easy way to access context
+export function useCompanyInfo() {
+  return useContext(CompanyInfoContext)
+}
+
+Exports a custom hook.
+
+Instead of writing useContext(CompanyInfoContext) everywhere, you just call useCompanyInfo().
+
+Helper: read nested values by a "path" string
+function resolvePath(source, path) {
+
+A normal function (not exported) used inside this file.
+
+Takes:
+
+source: the object to search (your company info)
+
+path: a string like "contact.email" or "social.linkedin"
+
+  if (!path) return undefined
+
+If path is missing/empty, return undefined.
+
+  return path.split('.').reduce((acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined), source)
+}
+
+This is the “nested lookup” logic:
+
+path.split('.') turns "contact.email" into ["contact","email"]
+
+reduce(...) walks through the object step by step:
+
+Start with source
+
+Then source["contact"]
+
+Then source["contact"]["email"]
+
+If at any step something doesn’t exist, it returns undefined safely (no crash).
+
+Component: render a specific field dynamically
+export function CompanyInfoField({ path, as: Component = 'span', className = '', prefix = '', suffix = '' }) {
+
+Exports a component that displays one piece of company info.
+
+Props:
+
+path: where to find the value (e.g. "contact.phone")
+
+as: what HTML tag/component to render as (default "span")
+
+className: CSS classes
+
+prefix/suffix: optional text before/after the value (e.g. "Tel: ")
+
+  const info = useCompanyInfo()
+
+Gets the current company info from Context.
+
+  const value = resolvePath(info, path)
+
+Looks up the nested field using the path string.
+
+  if (value === undefined || value === null || value === '') {
+    return null
+  }
+
+If the field is missing or empty:
+
+return null (React renders nothing)
+
+  return <Component className={className}>{`${prefix}${value}${suffix}`}</Component>
+}
+
+Renders the value using the chosen element/component (span by default)
+
+Combines prefix + value + suffix into one string.
+
+What this file lets you do (example)
+<CompanyInfoProvider value={{ contact: { phone: "+27 11 123 4567" } }}>
+  <footer>
+    <CompanyInfoField path="contact.phone" prefix="Call: " />
+    <CompanyInfoField path="social.linkedin" as="a" className="link" />
+  </footer>
+</CompanyInfoProvider>
+
+
+----------------------------------------------------------------
+Common times value would be applied:
+
+Tenant/brand override
+companyDetails has defaults, but one brand passes:
+value = { name: "Mzansi Sports", social: { twitter: "@mzansisports" } }
+Result: only those fields override defaults.
+
+Page-specific contact override
+A “Support” page provides:
+value = { contact: { email: "support@site.com" } }
+Result: phone/address stay from defaults, only email changes.
+
+Feature flag / environment override
+In staging:
+value = { contact: { whatsapp: "+27..." } }
+Production may pass nothing (value undefined), so defaults are used.
+
+CMS/admin-driven updates
+Data from CMS arrives later:
+value = cmsCompanySettings
+Once loaded, memo recalculates and context updates with CMS values.
+
+Per-provider override in component tree
+A nested provider wraps one section:
+<CompanyProvider value={{ social: { youtube: "..." } }}>
+  <Footer />
+</CompanyProvider>
+Only that subtree gets the overridden social links.
+
+If value is null/undefined, none of these apply and companyDetails is used unchanged.
+
+
