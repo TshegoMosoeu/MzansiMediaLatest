@@ -10,6 +10,7 @@ import Portfolio from "./pages/Portfolio"
 import Services from "./pages/Services"
 import { Analytics } from "@vercel/analytics/react"
 import Layout from './components/Layout'
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
 
@@ -26,6 +27,7 @@ function App() {
         </Route>
       </Routes>
       <Analytics />
+      <SpeedInsights />
     </div>
   )
 }
